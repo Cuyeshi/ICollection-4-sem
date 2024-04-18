@@ -1,84 +1,41 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using ICollectionLibrary;
 
-namespace Lab_3
+class Program
 {
-    public class CustomCollection<T> : ICollection<T>
+    static void Main(string[] args)
     {
-        private T[] items;
-
-        public CustomCollection()
+        // Создаем коллекцию
+        CustomCollection<int> collection = new CustomCollection<int>
         {
-            items = new T[0];
+            // Добавляем элементы в коллекцию
+            1,
+            3,
+            5,
+            7,
+            9
+        };
+
+        // Создаем массив для выполнения поиска
+        int[] array = new int[collection.Count];
+        int index = 0;
+        foreach (int item in collection)
+        {
+            array[index++] = item;
         }
 
-        public int Count => items.Length;
+        // Выполняем поиск элемента в коллекции
+        int elementToFind = 5;
+        index = BinarySearch.Search(array, elementToFind);
 
-        public bool IsReadOnly => false;
-
-        public void Add(T item)
+        // Проверяем результат поиска
+        if (index != -1)
         {
-            Array.Resize(ref items, items.Length + 1);
-            items[items.Length - 1] = item;
+            Console.WriteLine($"Element {elementToFind} found at index {index}");
         }
-
-        public void Clear()
+        else
         {
-            items = new T[0];
-        }
-
-        public bool Contains(T item)
-        {
-            foreach (T element in items)
-            {
-                if (EqualityComparer<T>.Default.Equals(element, item))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            Array.Copy(items, 0, array, arrayIndex, items.Length);
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            foreach (T item in items)
-            {
-                yield return item;
-            }
-        }
-
-        public bool Remove(T item)
-        {
-            int index = Array.IndexOf(items, item);
-            if (index >= 0)
-            {
-                RemoveAt(index);
-                return true;
-            }
-            return false;
-        }
-
-        public void RemoveAt(int index)
-        {
-            if (index < 0 || index >= items.Length)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range");
-            }
-            T[] newItems = new T[items.Length - 1];
-            Array.Copy(items, 0, newItems, 0, index);
-            Array.Copy(items, index + 1, newItems, index, items.Length - index - 1);
-            items = newItems;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            Console.WriteLine($"Element {elementToFind} not found in the collection");
         }
     }
 }
