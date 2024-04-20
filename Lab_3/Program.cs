@@ -1,41 +1,21 @@
-﻿using System;
-using ICollectionLibrary;
+﻿using ICollectionLibrary;
+using System;
 
-class Program
+namespace Lab_3
 {
-    static void Main(string[] args)
+    class Program
     {
-        // Создаем коллекцию
-        CustomCollection<int> collection = new CustomCollection<int>
+        static void Main(string[] args)
         {
-            // Добавляем элементы в коллекцию
-            1,
-            3,
-            5,
-            7,
-            9
-        };
+            int[] intArray = { 1, 2, 3, 4, 5 };
+            string[] stringArray = { "apple", "banana", "cherry", "date", "elderberry" };
+            float[] floatArray = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f };
 
-        // Создаем массив для выполнения поиска
-        int[] array = new int[collection.Count];
-        int index = 0;
-        foreach (int item in collection)
-        {
-            array[index++] = item;
-        }
+            Console.WriteLine(MyCollection<object>.BinarySearch(intArray, 1)); // Выводит: 0
+            Console.WriteLine(MyCollection<object>.BinarySearch(stringArray, "date")); // Выводит: 3
+            Console.WriteLine(MyCollection<object>.BinarySearch(floatArray, 5.5f)); // Выводит: 4
 
-        // Выполняем поиск элемента в коллекции
-        int elementToFind = 5;
-        index = BinarySearch.Search(array, elementToFind);
-
-        // Проверяем результат поиска
-        if (index != -1)
-        {
-            Console.WriteLine($"Element {elementToFind} found at index {index}");
-        }
-        else
-        {
-            Console.WriteLine($"Element {elementToFind} not found in the collection");
+            Console.ReadLine();
         }
     }
 }
